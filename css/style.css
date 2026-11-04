@@ -1,0 +1,147 @@
+/* Goodsprings municipal Termlink — monochrome CRT interface. */
+:root {
+  color-scheme: dark;
+  --phosphor: #8fe89a;
+  --bright: #b4ffb8;
+  --dim: #69ad76;
+  --line: #355c3d;
+  --screen: #08150c;
+  --sand: var(--dim); --sand-light: var(--bright); --dust: var(--phosphor);
+  --beige: var(--phosphor); --paper: var(--screen); --brown: var(--phosphor);
+  --brown-dark: var(--bright); --rust: #264a2d; --olive: #264a2d;
+  --olive-dark: #102d18; --terminal: var(--bright); --terminal-dim: var(--line);
+  --amber: var(--bright); --red: var(--bright); --black: var(--screen);
+  --wood: var(--screen); --sign-yellow: var(--bright); --sky: var(--dim);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { background: #151b15; }
+body {
+  max-width: 1440px; min-height: calc(100vh - 36px); margin: 18px auto;
+  padding: 24px clamp(16px, 3vw, 46px) 0; border: 2px solid #293b2b;
+  border-radius: 36px / 24px; background: radial-gradient(ellipse at 50% 30%, #102819 0%, #08150c 75%);
+  color: var(--phosphor); font: 16px/1.65 'Courier New', Courier, monospace;
+  text-shadow: 0 0 5px #73ec8b33; overflow-wrap: anywhere;
+  box-shadow: 0 0 0 8px #202820, 0 0 0 15px #101710, inset 0 0 80px #020a04;
+}
+/* Fixed optical layers never intercept input or scroll with the content. */
+body::before, body::after { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1000; }
+body::before {
+  background: repeating-linear-gradient(0deg, #010b0433 0, #010b0433 1px, transparent 1px, transparent 4px);
+}
+body::after {
+  background: radial-gradient(ellipse at center, transparent 40%, #01080366 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%2394dba0' opacity='.035' filter='url(%23n)' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+  animation: tube-drift 12s linear infinite;
+}
+@keyframes tube-drift { 0%, 96%, 100% { opacity: .65; } 97% { opacity: .8; } 98% { opacity: .6; } }
+::selection { color: var(--screen); background: var(--bright); text-shadow: none; }
+a { color: var(--bright); text-underline-offset: 4px; }
+a:hover { text-decoration: none; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--bright); outline-offset: 4px; }
+button, input, select, textarea { font: inherit; border-radius: 0; }
+.header-top { border-bottom: 1px dashed var(--line); color: var(--dim); padding: 8px 0 14px; font-size: .72rem; letter-spacing: .1em; }
+.terminal-ident { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 24px; color: var(--bright); font-size: .8rem; letter-spacing: .08em; padding-bottom: 10px; }
+.terminal-ident span:last-child { color: var(--dim); }
+.site-header { border-bottom: 2px solid var(--dim); }
+.header-inner { padding: 24px 0 18px; }
+.brand { display: inline-flex; align-items: center; gap: 16px; text-decoration: none; }
+.brand-emblem { border: 1px solid var(--dim); width: 52px; height: 52px; display: grid; place-items: center; font-size: 1.1rem; position: relative; }
+.brand-emblem::before { content: '+'; position: absolute; top: -15px; left: -5px; background: var(--screen); }
+.brand-text h1 { font-size: clamp(1.3rem, 3vw, 2rem); line-height: 1.2; letter-spacing: .16em; font-weight: normal; }
+.brand-text span { font-size: .75rem; color: var(--dim); }
+nav { display: flex; gap: 5px 12px; flex-wrap: wrap; margin-top: 22px; counter-reset: menu; }
+nav a { counter-increment: menu; font-size: .8rem; padding: 5px 7px; text-decoration: none; text-transform: uppercase; }
+nav a::before { content: '[' counter(menu, decimal-leading-zero) '] '; color: var(--dim); }
+nav a:hover, nav a.active { background: var(--phosphor); color: var(--screen); text-shadow: none; }
+nav a:hover::before, nav a.active::before { color: inherit; }
+.hero { position: relative; border-bottom: 1px solid var(--line); padding: 34px 0 30px; }
+.hero-bg { display: none; }
+.hero-content { max-width: 840px; }
+.hero-content::before { content: 'ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL'; display: block; font-size: .75rem; letter-spacing: .08em; color: var(--dim); margin-bottom: 18px; }
+.hero-sign h2 { font-size: clamp(2rem, 6vw, 4.25rem); font-weight: normal; line-height: 1.15; letter-spacing: .12em; color: var(--bright); text-shadow: 0 0 12px #90ff9f44; }
+.hero-tagline { font-size: 1.15rem; margin: 16px 0 8px; }
+.hero-tagline::before { content: '> '; }
+.hero-sub { max-width: 680px; color: var(--dim); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: .75rem; margin-top: 22px; }
+.hero-meta > span::before { content: '[ '; }
+.hero-meta > span::after { content: ' ]'; }
+.container { max-width: 1140px; margin: 0 auto; }
+.section { padding: 28px 0; }
+.section-title { display: flex; gap: 16px; align-items: center; font-size: 1.2rem; font-weight: normal; text-transform: uppercase; color: var(--bright); letter-spacing: .06em; }
+.section-title::before { content: '>'; }
+.section-title::after { content: ''; flex: 1; border-bottom: 1px dashed var(--line); }
+.section-sub { color: var(--dim); font-size: .8rem; margin: 8px 0 20px; }
+.paper, .card, .home-block, .form-panel { border: 1px solid var(--line); background: #09180d80; }
+.paper-header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding: 10px 18px; border-bottom: 1px solid var(--line); background: #17332080; color: var(--bright); font-size: .9rem; text-transform: uppercase; letter-spacing: .05em; }
+.paper-body { padding: 20px; }
+.mayor-message { margin: 0; }
+.mayor-message .paper-body { line-height: 1.8; }
+.mayor-sign { margin-top: 18px; text-align: right; }
+.mayor-sign strong { display: block; }
+.cards, .home-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.card { overflow: hidden; }
+.card:hover, .home-block:hover { border-color: var(--dim); }
+.card-body, .home-block { padding: 20px; }
+.card-title, .news-title, .home-block h3 { font-size: 1rem; font-weight: bold; color: var(--bright); margin-bottom: 10px; }
+.card-meta, .news-date { font-size: .75rem; color: var(--dim); margin-bottom: 8px; }
+.card-text, .news-excerpt { font-size: .9rem; }
+.card-img { min-height: 100px; display: grid; place-items: center; border-bottom: 1px dashed var(--line); color: var(--dim); font-size: .8rem; background: repeating-linear-gradient(0deg, transparent 0 7px, #355c3d22 8px); }
+.card-status { display: inline-block; padding: 2px 8px; margin-top: 14px; border: 1px solid var(--dim); font-size: .7rem; text-transform: uppercase; }
+.status-free, .status-open { background: var(--phosphor); color: var(--screen); text-shadow: none; }
+.status-busy, .status-repair, .status-closed { color: var(--dim); border-style: dashed; }
+.home-block h3 { border-bottom: 1px dashed var(--line); padding-bottom: 10px; }
+.home-block h3::before { content: '> '; }
+.home-block ul { list-style: none; }
+.home-block li { padding: 6px 0; border-bottom: 1px dotted var(--line); font-size: .9rem; }
+.home-block a { text-decoration: none; }
+.home-block a:hover { text-decoration: underline; }
+.news-list { display: grid; gap: 16px; }
+.news-item { display: grid; grid-template-columns: 130px 1fr; gap: 20px; padding: 18px; border-bottom: 1px solid var(--line); }
+.form-panel { padding: 24px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; color: var(--bright); font-size: .8rem; text-transform: uppercase; margin-bottom: 6px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 12px; border: 1px solid var(--dim); background: #061009; color: var(--bright); caret-color: var(--bright); }
+.form-group textarea { min-height: 120px; resize: vertical; }
+input::placeholder, textarea::placeholder { color: var(--dim); opacity: 1; }
+.btn { display: inline-block; background: transparent; color: var(--bright); border: 1px solid var(--dim); padding: 10px 18px; font-size: .85rem; text-transform: uppercase; cursor: pointer; text-decoration: none; }
+.btn::before { content: '[ '; }
+.btn::after { content: ' ]'; }
+.btn:hover, .btn:active { background: var(--phosphor); color: var(--screen); text-shadow: none; }
+.btn-primary { border-color: var(--bright); }
+.btn-danger { border-style: dashed; }
+.btn-sm { font-size: .75rem; padding: 6px 10px; }
+.btn:disabled { opacity: .5; cursor: wait; }
+.empty { padding: 32px 20px; border: 1px dashed var(--line); color: var(--dim); font-size: .9rem; }
+.terminal { padding: 18px; border-left: 2px solid var(--dim); background: #06100980; font-size: .85rem; }
+.terminal::before { content: 'ROBCO INDUSTRIES (TM) — MUNICIPAL RECORD'; display: block; color: var(--dim); font-size: .7rem; margin-bottom: 12px; }
+.site-footer { margin-top: 40px; padding: 22px 0; border-top: 2px solid var(--dim); font-size: .7rem; color: var(--dim); letter-spacing: .03em; }
+.site-footer::after { content: 'END OF RECORD  ■'; display: block; color: var(--bright); padding-top: 14px; }
+.page-hero { border-bottom: 1px dashed var(--line); padding: 28px 0; }
+.page-hero h1 { font-size: clamp(1.4rem, 4vw, 2rem); color: var(--bright); font-weight: normal; text-transform: uppercase; letter-spacing: .06em; }
+.page-hero h1::before { content: '> '; }
+.page-hero p { margin-top: 8px; color: var(--dim); font-size: .85rem; }
+.admin-login { max-width: 460px; margin: 36px auto; }
+.admin-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.admin-section { display: none; }
+.admin-section.active { display: block; }
+.table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.table th, .table td { padding: 10px; border: 1px solid var(--line); text-align: left; }
+.table th { color: var(--bright); text-transform: uppercase; }
+.stamp { border: 1px solid var(--dim); padding: 0 8px; font-size: .7rem; color: var(--bright); }
+img { filter: grayscale(1) sepia(1) hue-rotate(70deg) saturate(1.4) brightness(.8) contrast(1.15) !important; mix-blend-mode: screen; max-width: 100%; }
+.paper-body h2 { font-family: inherit !important; }
+hr { border: 0; border-top: 1px dashed var(--line) !important; }
+.config-warning { padding: 12px 0; color: var(--bright); border-bottom: 1px dashed var(--line); font-size: .8rem; }
+@media (min-width: 1000px) { .home-grid { grid-template-columns: 1.2fr 1fr; } }
+@media (max-width: 600px) {
+  body { margin: 8px; padding: 18px 16px 0; border-radius: 20px; min-height: calc(100vh - 16px); font-size: 14px; }
+  .cards, .home-grid, .news-item { grid-template-columns: 1fr; }
+  .header-inner { padding-top: 18px; }
+  nav { gap: 4px; } nav a { font-size: .7rem; padding: 6px; }
+  .brand-text h1 { letter-spacing: .08em; }
+  .hero-sign h2 { letter-spacing: .04em; }
+  .paper-body, .form-panel, .home-block { padding: 16px; }
+  .paper-body > div[style*='grid-template-columns:160px'] { grid-template-columns: 1fr !important; }
+  .table { display: block; overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; } }
+@media print { body { margin: 0; padding: 0; box-shadow: none; } body::before, body::after { display: none; } }
