@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GOODSPRINGS — Официальный портал поселения</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">
+    ПУСТОШЬ МОХАВЕ · НЕВАДА · ОФИЦИАЛЬНЫЙ ИНФОРМАЦИОННЫЙ ПОРТАЛ
+  </div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text">
+          <h1>GOODSPRINGS</h1>
+          <span>Официальный портал поселения</span>
+        </div>
+      </a>
+      <nav>
+        <a href="index.html" class="active">Главная</a>
+        <a href="about.html">О поселении</a>
+        <a href="administration.html">Администрация</a>
+        <a href="news.html">Новости</a>
+        <a href="board.html">Объявления</a>
+        <a href="housing.html">Недвижимость</a>
+        <a href="jobs.html">Работа</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="proposals.html">Предложения</a>
+        <a href="contact.html">Связь с мэром</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-sign">
+        <h2>GOODSPRINGS</h2>
+      </div>
+      <p class="hero-tagline">Добро пожаловать в Гудспрингс!</p>
+      <p class="hero-sub">Небольшое поселение в сердце Мохаве. Здесь ещё остались люди, которые готовы строить будущее.</p>
+      <div class="hero-meta">
+        <span>Пустошь Мохаве</span>
+        <span>Мэр: <span data-meta="mayor">Рэй Дженкинс</span></span>
+        <span>Статус: <span data-meta="status">Открыт</span></span>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <!-- Mayor message -->
+    <section class="section mayor-message">
+      <div class="paper">
+        <div class="paper-header">
+          <span>Обращение мэра</span>
+          <span class="stamp">OFFICIAL</span>
+        </div>
+        <div class="paper-body" id="mayor-message-text" style="white-space:pre-wrap;"></div>
+      </div>
+    </section>
+
+    <!-- Home blocks -->
+    <section class="section">
+      <h2 class="section-title">Жизнь поселения</h2>
+      <p class="section-sub">Актуальная информация для жителей и путешественников</p>
+
+      <div class="home-grid">
+        <div class="home-block">
+          <h3>Последние новости</h3>
+          <div id="home-news"></div>
+          <p style="margin-top:12px;"><a href="news.html" class="btn btn-sm">Все новости →</a></p>
+        </div>
+
+        <div class="home-block">
+          <h3>Свежие объявления</h3>
+          <div id="home-board"></div>
+          <p style="margin-top:12px;"><a href="board.html" class="btn btn-sm">Доска объявлений →</a></p>
+        </div>
+
+        <div class="home-block">
+          <h3>Свободные дома</h3>
+          <div id="home-housing"></div>
+          <p style="margin-top:12px;"><a href="housing.html" class="btn btn-sm">Каталог жилья →</a></p>
+        </div>
+
+        <div class="home-block">
+          <h3>Ближайшие мероприятия</h3>
+          <div id="home-events"></div>
+          <p style="margin-top:12px;"><a href="events.html" class="btn btn-sm">Календарь →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info for newcomers -->
+    <section class="section">
+      <div class="paper">
+        <div class="paper-header">Информация для новых жителей</div>
+        <div class="paper-body">
+          <p>Гудспрингс открыт для тех, кто ищет место, где можно остановиться, работать и жить среди людей.</p>
+          <ul style="margin:16px 0 16px 20px;">
+            <li>Посмотрите <a href="housing.html" style="color:var(--brown);">свободные дома</a></li>
+            <li>Ознакомьтесь с <a href="jobs.html" style="color:var(--brown);">вакансиями</a></li>
+            <li>Прочитайте <a href="about.html" style="color:var(--brown);">правила проживания</a></li>
+            <li>При необходимости напишите <a href="contact.html" style="color:var(--brown);">мэру</a></li>
+          </ul>
+          <p style="opacity:0.8;font-size:0.95rem;">Мы не обещаем лёгкой жизни. Мы обещаем, что вы не будете один.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="terminal" style="margin: 30px 0;">
+      &gt; Система муниципальной информации Гудспрингс активна.<br>
+      &gt; Последнее обновление: <span data-meta="lastUpdate">—</span><br>
+      &gt; Для администрации: <a href="admin.html" style="color:var(--terminal);">вход в панель управления</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    GOODSPRINGS MUNICIPAL PORTAL · FALLOUT: NEW VEGAS RP · DAYZ<br>
+    Неофициальный фан-проект. Все данные управляются администрацией поселения.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        document.getElementById('mayor-message-text').textContent = await GS.getMayorMsg();
+
+        const news = (await GS.getNews()).slice(0, 3);
+        const newsEl = document.getElementById('home-news');
+        if (!news.length) newsEl.innerHTML = '<p style="opacity:0.6;font-size:0.9rem;">Пока нет новостей</p>';
+        else newsEl.innerHTML = '<ul>' + news.map(n => '<li><a href="news.html">' + esc(n.title) + '</a></li>').join('') + '</ul>';
+
+        const board = (await GS.getBoard()).slice(0, 3);
+        const boardEl = document.getElementById('home-board');
+        if (!board.length) boardEl.innerHTML = '<p style="opacity:0.6;font-size:0.9rem;">Доска пуста</p>';
+        else boardEl.innerHTML = '<ul>' + board.map(b => '<li><a href="board.html">' + esc(b.title) + '</a></li>').join('') + '</ul>';
+
+        const housing = await GS.getHousing();
+        const free = housing.filter(h => h.status === 'free');
+        const hEl = document.getElementById('home-housing');
+        if (!housing.length) hEl.innerHTML = '<p style="opacity:0.6;font-size:0.9rem;">Данные уточняются</p>';
+        else hEl.innerHTML = '<p>Свободно объектов: <strong>' + free.length + '</strong></p>';
+
+        const ev = (await GS.getEvents()).slice(0, 2);
+        const eEl = document.getElementById('home-events');
+        if (!ev.length) eEl.innerHTML = '<p style="opacity:0.6;font-size:0.9rem;">Нет запланированных событий</p>';
+        else eEl.innerHTML = '<ul>' + ev.map(e => '<li>' + esc(e.date) + ' — ' + esc(e.title) + '</li>').join('') + '</ul>';
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>

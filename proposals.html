@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Предложения жителей — GOODSPRINGS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">ПУСТОШЬ МОХАВЕ · НЕВАДА · ОФИЦИАЛЬНЫЙ ИНФОРМАЦИОННЫЙ ПОРТАЛ</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text"><h1>GOODSPRINGS</h1><span>Официальный портал поселения</span></div>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html">О поселении</a>
+        <a href="administration.html">Администрация</a>
+        <a href="news.html">Новости</a>
+        <a href="board.html">Объявления</a>
+        <a href="housing.html">Недвижимость</a>
+        <a href="jobs.html">Работа</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="proposals.html" class="active">Предложения</a>
+        <a href="contact.html">Связь с мэром</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Предложения жителей</h1>
+    <p>Идеи по развитию поселения · Рассматриваются администрацией</p>
+  </div>
+
+  <main class="container section">
+    <div id="proposals-list" style="margin-bottom:40px;"></div>
+
+    <div class="paper">
+      <div class="paper-header">Подать предложение</div>
+      <div class="paper-body">
+        <form id="prop-form">
+          <div class="form-group">
+            <label>Игровой ник</label>
+            <input type="text" id="p-author" maxlength="40">
+          </div>
+          <div class="form-group">
+            <label>Заголовок идеи *</label>
+            <input type="text" id="p-title" required maxlength="120">
+          </div>
+          <div class="form-group">
+            <label>Описание *</label>
+            <textarea id="p-content" required maxlength="3000" placeholder="Что предлагаете построить, организовать или улучшить?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Отправить на рассмотрение</button>
+        </form>
+        <div id="prop-result" style="display:none;margin-top:16px;"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">GOODSPRINGS MUNICIPAL PORTAL · FALLOUT: NEW VEGAS RP</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await renderProposals('proposals-list');
+      document.getElementById('prop-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        await GS.addProposal({
+          author: document.getElementById('p-author').value.trim() || 'Житель',
+          title: document.getElementById('p-title').value.trim(),
+          content: document.getElementById('p-content').value.trim()
+        });
+        document.getElementById('prop-result').style.display = 'block';
+        document.getElementById('prop-result').innerHTML = '<div class="terminal">&gt; Предложение принято. Статус: на рассмотрении.</div>';
+        e.target.reset();
+        await renderProposals('proposals-list');
+      });
+    });
+  </script>
+</body>
+</html>

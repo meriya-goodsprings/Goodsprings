@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель — GOODSPRINGS</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: #12100c; }
+    .admin-wrap { max-width: 1000px; margin: 0 auto; padding: 20px; }
+  </style>
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">RESTRICTED · GOODSPRINGS MUNICIPAL ADMIN</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text"><h1>ADMIN</h1><span>Панель управления поселением</span></div>
+      </div>
+      <nav><a href="index.html">← К сайту</a></nav>
+    </div>
+  </header>
+
+  <div class="admin-wrap">
+    <!-- Login -->
+    <div id="login-box" class="paper admin-login">
+      <div class="paper-header">Авторизация</div>
+      <div class="paper-body">
+        <div class="form-group">
+          <label>Код доступа</label>
+          <input type="password" id="pass" placeholder="••••••••">
+        </div>
+        <button class="btn btn-primary" id="login-btn">Войти</button>
+        <p id="login-err" style="color:#c44;margin-top:12px;display:none;">Неверный код</p>
+        <p style="margin-top:16px;font-size:0.8rem;opacity:0.6;font-family:'Share Tech Mono',monospace;">По умолчанию: goodsprings</p>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dash" style="display:none;">
+      <div class="admin-nav" style="margin-bottom:20px;">
+        <button class="btn btn-sm admin-tab active" data-t="mod">Модерация</button>
+        <button class="btn btn-sm admin-tab" data-t="news">Новости</button>
+        <button class="btn btn-sm admin-tab" data-t="board">Объявления</button>
+        <button class="btn btn-sm admin-tab" data-t="housing">Жильё</button>
+        <button class="btn btn-sm admin-tab" data-t="jobs">Вакансии</button>
+        <button class="btn btn-sm admin-tab" data-t="events">События</button>
+        <button class="btn btn-sm admin-tab" data-t="prop">Предложения</button>
+        <button class="btn btn-sm admin-tab" data-t="msg">Обращения</button>
+        <button class="btn btn-sm admin-tab" data-t="mayor">Обращение мэра</button>
+        <button class="btn btn-sm admin-tab" data-t="about">О поселении</button>
+        <button class="btn btn-sm admin-tab" data-t="meta">Мета</button>
+        <button class="btn btn-sm admin-tab" data-t="set">Настройки</button>
+        <button class="btn btn-sm btn-danger" id="logout">Выйти</button>
+      </div>
+
+      <!-- Moderation -->
+      <div class="admin-section active" id="t-mod">
+        <h2 class="section-title">Модерация</h2>
+        <h3 style="margin:16px 0 8px;color:var(--sand);">Объявления на проверке</h3>
+        <div id="mod-board"></div>
+        <h3 style="margin:24px 0 8px;color:var(--sand);">Предложения</h3>
+        <div id="mod-prop"></div>
+      </div>
+
+      <!-- News -->
+      <div class="admin-section" id="t-news">
+        <h2 class="section-title">Новости</h2>
+        <div class="form-panel" style="margin-bottom:20px;">
+          <div class="form-group"><label>Заголовок</label><input id="n-title"></div>
+          <div class="form-group"><label>Автор</label><input id="n-author" value="Администрация"></div>
+          <div class="form-group"><label>Текст</label><textarea id="n-content"></textarea></div>
+          <button class="btn btn-primary" id="add-news">Опубликовать</button>
+        </div>
+        <div id="admin-news"></div>
+      </div>
+
+      <!-- Board manage -->
+      <div class="admin-section" id="t-board">
+        <h2 class="section-title">Опубликованные объявления</h2>
+        <div id="admin-board"></div>
+      </div>
+
+      <!-- Housing -->
+      <div class="admin-section" id="t-housing">
+        <h2 class="section-title">Недвижимость</h2>
+        <div class="form-panel" style="margin-bottom:20px;">
+          <div class="form-group"><label>Название / номер</label><input id="h-title"></div>
+          <div class="form-group"><label>Описание</label><textarea id="h-desc"></textarea></div>
+          <div class="form-group"><label>Состояние</label><input id="h-cond" placeholder="Хорошее / требует ремонта"></div>
+          <div class="form-group"><label>Цена (если есть)</label><input id="h-price"></div>
+          <div class="form-group"><label>Статус</label>
+            <select id="h-status"><option value="free">Свободен</option><option value="busy">Занят</option><option value="repair">На ремонте</option></select>
+          </div>
+          <button class="btn btn-primary" id="add-house">Добавить</button>
+        </div>
+        <div id="admin-housing"></div>
+      </div>
+
+      <!-- Jobs -->
+      <div class="admin-section" id="t-jobs">
+        <h2 class="section-title">Вакансии</h2>
+        <div class="form-panel" style="margin-bottom:20px;">
+          <div class="form-group"><label>Должность</label><input id="j-title"></div>
+          <div class="form-group"><label>Отдел</label><input id="j-dept" placeholder="Охрана / Ферма / ..."></div>
+          <div class="form-group"><label>Описание</label><textarea id="j-desc"></textarea></div>
+          <div class="form-group"><label>Требования</label><input id="j-req"></div>
+          <button class="btn btn-primary" id="add-job">Добавить</button>
+        </div>
+        <div id="admin-jobs"></div>
+      </div>
+
+      <!-- Events -->
+      <div class="admin-section" id="t-events">
+        <h2 class="section-title">Мероприятия</h2>
+        <div class="form-panel" style="margin-bottom:20px;">
+          <div class="form-group"><label>Название</label><input id="e-title"></div>
+          <div class="form-group"><label>Дата</label><input id="e-date" placeholder="2026-11-10 или «Скоро»"></div>
+          <div class="form-group"><label>Место</label><input id="e-place" value="Гудспрингс"></div>
+          <div class="form-group"><label>Описание</label><textarea id="e-desc"></textarea></div>
+          <div class="form-group"><label>Статус</label>
+            <select id="e-status"><option value="open">Открыто</option><option value="closed">Закрыто</option></select>
+          </div>
+          <button class="btn btn-primary" id="add-event">Добавить</button>
+        </div>
+        <div id="admin-events"></div>
+      </div>
+
+      <!-- Proposals manage -->
+      <div class="admin-section" id="t-prop">
+        <h2 class="section-title">Предложения жителей</h2>
+        <div id="admin-prop"></div>
+      </div>
+
+      <!-- Messages -->
+      <div class="admin-section" id="t-msg">
+        <h2 class="section-title">Обращения к мэру</h2>
+        <div id="admin-msg"></div>
+      </div>
+
+      <!-- Mayor message -->
+      <div class="admin-section" id="t-mayor">
+        <h2 class="section-title">Обращение мэра (главная страница)</h2>
+        <div class="form-group"><textarea id="mayor-edit" style="min-height:200px;"></textarea></div>
+        <button class="btn btn-primary" id="save-mayor">Сохранить</button>
+      </div>
+
+      <!-- About -->
+      <div class="admin-section" id="t-about">
+        <h2 class="section-title">О поселении</h2>
+        <div class="form-group"><label>История</label><textarea id="a-history" style="min-height:120px;"></textarea></div>
+        <div class="form-group"><label>Расположение</label><textarea id="a-loc"></textarea></div>
+        <div class="form-group"><label>Инфраструктура</label><textarea id="a-infra"></textarea></div>
+        <div class="form-group"><label>Правила</label><textarea id="a-rules" style="min-height:100px;"></textarea></div>
+        <div class="form-group"><label>Возможности</label><textarea id="a-opp"></textarea></div>
+        <button class="btn btn-primary" id="save-about">Сохранить</button>
+      </div>
+
+      <!-- Meta -->
+      <div class="admin-section" id="t-meta">
+        <h2 class="section-title">Метаданные</h2>
+        <div class="form-group"><label>Мэр</label><input id="meta-mayor"></div>
+        <div class="form-group"><label>Статус поселения</label><input id="meta-status"></div>
+        <div class="form-group"><label>Население (текст)</label><input id="meta-pop"></div>
+        <button class="btn btn-primary" id="save-meta">Сохранить</button>
+      </div>
+
+      <!-- Settings -->
+      <div class="admin-section" id="t-set">
+        <h2 class="section-title">Настройки</h2>
+        <div class="form-group"><label>Новый пароль</label><input type="password" id="new-pass"></div>
+        <button class="btn btn-primary" id="chg-pass">Сменить пароль</button>
+        <hr style="margin:24px 0;border-color:#5c4a38;">
+        <button class="btn" id="export">Экспорт JSON</button>
+        <button class="btn" id="import-btn" style="margin-left:8px;">Импорт JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none;">
+        <hr style="margin:24px 0;border-color:#5c4a38;">
+        <button class="btn btn-danger" id="clear-all">Очистить все данные</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const SK = 'gs_admin_ok';
+    function logged() { return sessionStorage.getItem(SK) === '1'; }
+    function showDash() {
+      document.getElementById('login-box').style.display = 'none';
+      document.getElementById('dash').style.display = 'block';
+      loadAll();
+    }
+    if (logged()) showDash();
+
+    document.getElementById('login-btn').onclick = () => {
+      if (GS.checkAdmin(document.getElementById('pass').value)) {
+        sessionStorage.setItem(SK, '1');
+        showDash();
+      } else document.getElementById('login-err').style.display = 'block';
+    };
+    document.getElementById('logout').onclick = () => {
+      sessionStorage.removeItem(SK);
+      location.reload();
+    };
+
+    document.querySelectorAll('.admin-tab').forEach(b => {
+      b.onclick = () => {
+        document.querySelectorAll('.admin-tab').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.admin-section').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        document.getElementById('t-' + b.dataset.t).classList.add('active');
+      };
+    });
+
+    async function loadAll() {
+      await loadMod();
+      await loadNews();
+      await loadBoard();
+      await loadHousing();
+      await loadJobs();
+      await loadEvents();
+      await loadProp();
+      await loadMsg();
+      document.getElementById('mayor-edit').value = await GS.getMayorMsg() || '';
+      const a = await GS.getAbout();
+      document.getElementById('a-history').value = a.history || '';
+      document.getElementById('a-loc').value = a.location || '';
+      document.getElementById('a-infra').value = a.infrastructure || '';
+      document.getElementById('a-rules').value = a.rules || '';
+      document.getElementById('a-opp').value = a.opportunities || '';
+      const m = await GS.getMeta();
+      document.getElementById('meta-mayor').value = m.mayor || '';
+      document.getElementById('meta-status').value = m.status || '';
+      document.getElementById('meta-pop').value = m.population || '';
+    }
+
+    async function loadMod() {
+      const all = await GS.getSubmissions();
+      const subs = all.filter(s => s.status === 'pending' && s.type === 'board');
+      const el = document.getElementById('mod-board');
+      if (!subs.length) el.innerHTML = '<div class="empty">Нет объявлений на проверке</div>';
+      else el.innerHTML = subs.map(s => `
+        <div class="card" style="margin-bottom:12px;"><div class="card-body">
+          <strong>${esc(s.title)}</strong> · ${esc(s.category)} · ${esc(s.author)}
+          <p style="margin:8px 0;white-space:pre-wrap;">${esc(s.content)}</p>
+          <button class="btn btn-primary btn-sm" onclick="approveSub('${s.id}')">Одобрить</button>
+          <button class="btn btn-danger btn-sm" onclick="rejectSub('${s.id}')">Отклонить</button>
+        </div></div>`).join('');
+      document.getElementById('mod-prop').innerHTML = '<div class="empty">См. вкладку «Предложения»</div>';
+    }
+    window.approveSub = async (id) => { await GS.approveSubmission(id); await loadMod(); await loadBoard(); };
+    window.rejectSub = async (id) => { await GS.updateSubmission(id, 'rejected'); await loadMod(); };
+
+    async function loadNews() {
+      const list = await GS.getNews();
+      document.getElementById('admin-news').innerHTML = list.length ? list.map(n => `
+        <div class="card" style="margin-bottom:8px;"><div class="card-body" style="display:flex;justify-content:space-between;">
+          <span><strong>${esc(n.title)}</strong> · ${esc(n.date)}</span>
+          <button class="btn btn-danger btn-sm" onclick="delNews('${n.id}')">Удалить</button>
+        </div></div>`).join('') : '<div class="empty">Нет новостей</div>';
+    }
+    window.delNews = async (id) => { await GS.removeNews(id); await loadNews(); };
+    document.getElementById('add-news').onclick = async () => {
+      const title = document.getElementById('n-title').value.trim();
+      const content = document.getElementById('n-content').value.trim();
+      if (!title || !content) return alert('Заполните поля');
+      await GS.addNews({ title, content, author: document.getElementById('n-author').value.trim() || 'Администрация' });
+      document.getElementById('n-title').value = '';
+      document.getElementById('n-content').value = '';
+      await loadNews();
+      alert('Новость опубликована и видна всем');
+    };
+
+    async function loadBoard() {
+      const list = await GS.getBoard();
+      document.getElementById('admin-board').innerHTML = list.length ? list.map(b => `
+        <div class="card" style="margin-bottom:8px;"><div class="card-body" style="display:flex;justify-content:space-between;">
+          <span><strong>${esc(b.title)}</strong> · ${esc(b.category)}</span>
+          <button class="btn btn-danger btn-sm" onclick="delBoard('${b.id}')">Удалить</button>
+        </div></div>`).join('') : '<div class="empty">Нет объявлений</div>';
+    }
+    window.delBoard = async (id) => { await GS.removeBoard(id); await loadBoard(); };
+
+    async function loadHousing() {
+      const list = await GS.getHousing();
+      document.getElementById('admin-housing').innerHTML = list.length ? list.map(h => `
+        <div class="card" style="margin-bottom:8px;"><div class="card-body" style="display:flex;justify-content:space-between;">
+          <span><strong>${esc(h.title)}</strong> · ${h.status}</span>
+          <button class="btn btn-danger btn-sm" onclick="delHouse('${h.id}')">Удалить</button>
+        </div></div>`).join('') : '<div class="empty">Нет объектов</div>';
+    }
+    window.delHouse = async (id) => { await GS.removeHousing(id); await loadHousing(); };
+    document.getElementById('add-house').onclick = async () => {
+      const title = document.getElementById('h-title').value.trim();
+      if (!title) return alert('Укажите название');
+      await GS.addHousing({
+        title,
+        description: document.getElementById('h-desc').value.trim(),
+        condition: document.getElementById('h-cond').value.trim(),
+        price: document.getElementById('h-price').value.trim(),
+        status: document.getElementById('h-status').value
+      });
+      ['h-title','h-desc','h-cond','h-price'].forEach(id => document.getElementById(id).value = '');
+      await loadHousing();
+    };
+
+    async function loadJobs() {
+      const list = await GS.getJobs();
+      document.getElementById('admin-jobs').innerHTML = list.length ? list.map(j => `
+        <div class="card" style="margin-bottom:8px;"><div class="card-body" style="display:flex;justify-content:space-between;">
+          <span><strong>${esc(j.title)}</strong></span>
+          <button class="btn btn-danger btn-sm" onclick="delJob('${j.id}')">Удалить</button>
+        </div></div>`).join('') : '<div class="empty">Нет вакансий</div>';
+    }
+    window.delJob = async (id) => { await GS.removeJob(id); await loadJobs(); };
+    document.getElementById('add-job').onclick = async () => {
+      const title = document.getElementById('j-title').value.trim();
+      if (!title) return alert('Укажите должность');
+      await GS.addJob({
+        title,
+        department: document.getElementById('j-dept').value.trim(),
+        description: document.getElementById('j-desc').value.trim(),
+        requirements: document.getElementById('j-req').value.trim()
+      });
+      ['j-title','j-dept','j-desc','j-req'].forEach(id => document.getElementById(id).value = '');
+      await loadJobs();
+    };
+
+    async function loadEvents() {
+      const list = await GS.getEvents();
+      document.getElementById('admin-events').innerHTML = list.length ? list.map(e => `
+        <div class="card" style="margin-bottom:8px;"><div class="card-body" style="display:flex;justify-content:space-between;">
+          <span><strong>${esc(e.title)}</strong> · ${esc(e.date)}</span>
+          <button class="btn btn-danger btn-sm" onclick="delEvent('${e.id}')">Удалить</button>
+        </div></div>`).join('') : '<div class="empty">Нет событий</div>';
+    }
+    window.delEvent = async (id) => { await GS.removeEvent(id); await loadEvents(); };
+    document.getElementById('add-event').onclick = async () => {
+      const title = document.getElementById('e-title').value.trim();
+      if (!title) return alert('Укажите название');
+      await GS.addEvent({
+        title,
+        date: document.getElementById('e-date').value.trim(),
+        place: document.getElementById('e-place').value.trim(),
+        description: document.getElementById('e-desc').value.trim(),
+        status: document.getElementById('e-status').value
+      });
+      document.getElementById('e-title').value = '';
+      document.getElementById('e-desc').value = '';
+      await loadEvents();
+    };
+
+    async function loadProp() {
+      const list = await GS.getProposals();
+      const map = { pending:'На рассмотрении', approved:'Одобрено', rejected:'Отклонено', done:'Реализовано' };
+      document.getElementById('admin-prop').innerHTML = list.length ? list.map(p => `
+        <div class="card" style="margin-bottom:12px;"><div class="card-body">
+          <strong>${esc(p.title)}</strong> · ${map[p.status]||p.status} · ${esc(p.author)}
+          <p style="margin:8px 0;white-space:pre-wrap;">${esc(p.content)}</p>
+          <button class="btn btn-sm" onclick="setProp('${p.id}','approved')">Одобрить</button>
+          <button class="btn btn-sm" onclick="setProp('${p.id}','rejected')">Отклонить</button>
+          <button class="btn btn-sm" onclick="setProp('${p.id}','done')">Реализовано</button>
+        </div></div>`).join('') : '<div class="empty">Нет предложений</div>';
+    }
+    window.setProp = async (id, st) => { await GS.updateProposal(id, st); await loadProp(); };
+
+    async function loadMsg() {
+      const list = await GS.getMessages();
+      document.getElementById('admin-msg').innerHTML = list.length ? list.map(m => `
+        <div class="card" style="margin-bottom:12px;"><div class="card-body">
+          <strong>${esc(m.topic)}</strong> · ${esc(m.author)} · ${esc(m.date)} · <em>${m.status}</em>
+          <p style="margin:8px 0;white-space:pre-wrap;">${esc(m.content)}</p>
+          <button class="btn btn-sm" onclick="setMsg('${m.id}','read')">Прочитано</button>
+          <button class="btn btn-sm" onclick="setMsg('${m.id}','answered')">Отвечено</button>
+        </div></div>`).join('') : '<div class="empty">Нет обращений</div>';
+    }
+    window.setMsg = async (id, st) => { await GS.updateMessage(id, st); await loadMsg(); };
+
+    document.getElementById('save-mayor').onclick = async () => {
+      await GS.setMayorMsg(document.getElementById('mayor-edit').value);
+      alert('Сохранено — видно всем');
+    };
+    document.getElementById('save-about').onclick = async () => {
+      await GS.setAbout({
+        history: document.getElementById('a-history').value,
+        location: document.getElementById('a-loc').value,
+        infrastructure: document.getElementById('a-infra').value,
+        rules: document.getElementById('a-rules').value,
+        opportunities: document.getElementById('a-opp').value
+      });
+      alert('Сохранено');
+    };
+    document.getElementById('save-meta').onclick = async () => {
+      const m = await GS.getMeta();
+      m.mayor = document.getElementById('meta-mayor').value;
+      m.status = document.getElementById('meta-status').value;
+      m.population = document.getElementById('meta-pop').value;
+      await GS.setMeta(m);
+      alert('Сохранено');
+    };
+    document.getElementById('chg-pass').onclick = () => {
+      alert('Пароль меняется в файле js/config.js (ADMIN_PASSWORD), затем перезалей сайт на Netlify.');
+    };
+    // hide export/import/clear that relied on localStorage or simplify
+    const exp = document.getElementById('export');
+    if (exp) exp.onclick = () => alert('Данные теперь в Supabase. Смотри таблицы в панели supabase.com');
+    const imp = document.getElementById('import-btn');
+    if (imp) imp.style.display = 'none';
+    const clr = document.getElementById('clear-all');
+    if (clr) clr.onclick = () => alert('Очистка: удаляй записи прямо в Supabase Table Editor.');
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска объявлений — GOODSPRINGS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">ПУСТОШЬ МОХАВЕ · НЕВАДА · ОФИЦИАЛЬНЫЙ ИНФОРМАЦИОННЫЙ ПОРТАЛ</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text"><h1>GOODSPRINGS</h1><span>Официальный портал поселения</span></div>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html">О поселении</a>
+        <a href="administration.html">Администрация</a>
+        <a href="news.html">Новости</a>
+        <a href="board.html" class="active">Объявления</a>
+        <a href="housing.html">Недвижимость</a>
+        <a href="jobs.html">Работа</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="proposals.html">Предложения</a>
+        <a href="contact.html">Связь с мэром</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Доска объявлений</h1>
+    <p>Общественная доска Гудспрингс · Все объявления проходят модерацию</p>
+  </div>
+
+  <main class="container section">
+    <div id="board-list" style="margin-bottom:40px;"></div>
+
+    <div class="paper">
+      <div class="paper-header">Разместить объявление</div>
+      <div class="paper-body">
+        <p style="margin-bottom:16px;opacity:0.85;">Укажите игровой ник. Реальные данные не требуются. Объявление появится после проверки администрацией.</p>
+        <form id="board-form">
+          <div class="form-group">
+            <label>Игровой ник</label>
+            <input type="text" id="b-author" maxlength="40" placeholder="Ваш ник на сервере">
+          </div>
+          <div class="form-group">
+            <label>Категория</label>
+            <select id="b-cat">
+              <option value="Торговля">Торговля</option>
+              <option value="Работа">Работа / поиск работников</option>
+              <option value="Поиск">Поиск людей / пропажи</option>
+              <option value="Имущество">Продажа имущества</option>
+              <option value="Помощь">Просьба о помощи</option>
+              <option value="Развитие">Предложение по развитию</option>
+              <option value="Пустошь">Информация о пустошах</option>
+              <option value="Разное">Разное</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Заголовок *</label>
+            <input type="text" id="b-title" required maxlength="100">
+          </div>
+          <div class="form-group">
+            <label>Текст объявления *</label>
+            <textarea id="b-content" required maxlength="2000"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Отправить на модерацию</button>
+        </form>
+        <div id="board-result" style="display:none;margin-top:16px;"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">GOODSPRINGS MUNICIPAL PORTAL · FALLOUT: NEW VEGAS RP</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await renderBoard('board-list');
+      document.getElementById('board-form').addEventListener('submit', async e => {
+        e.preventDefault();
+        await GS.addSubmission({
+          type: 'board',
+          author: document.getElementById('b-author').value.trim() || 'Аноним',
+          category: document.getElementById('b-cat').value,
+          title: document.getElementById('b-title').value.trim(),
+          content: document.getElementById('b-content').value.trim()
+        });
+        document.getElementById('board-result').style.display = 'block';
+        document.getElementById('board-result').innerHTML = '<div class="terminal">&gt; Объявление принято и ожидает модерации.</div>';
+        e.target.reset();
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Связь с мэром — GOODSPRINGS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">ПУСТОШЬ МОХАВЕ · НЕВАДА · ОФИЦИАЛЬНЫЙ ИНФОРМАЦИОННЫЙ ПОРТАЛ</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text"><h1>GOODSPRINGS</h1><span>Официальный портал поселения</span></div>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html">О поселении</a>
+        <a href="administration.html">Администрация</a>
+        <a href="news.html">Новости</a>
+        <a href="board.html">Объявления</a>
+        <a href="housing.html">Недвижимость</a>
+        <a href="jobs.html">Работа</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="proposals.html">Предложения</a>
+        <a href="contact.html" class="active">Связь с мэром</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Связь с мэром</h1>
+    <p>Официальная приёмная · Рэй «Стальной Пулемёт» Дженкинс</p>
+  </div>
+
+  <main class="container section">
+    <div class="paper" style="margin-bottom:30px;">
+      <div class="paper-header">Приёмная мэра Гудспрингс</div>
+      <div class="paper-body">
+        <p>Здесь вы можете направить обращение непосредственно мэру. Сообщайте о проблемах, предлагайте улучшения, запрашивайте встречу или информируйте о происшествиях.</p>
+        <p style="margin-top:12px;opacity:0.8;">Обращения рассматриваются в порядке поступления. Ответ вы получите на сервере или через обновление статуса.</p>
+      </div>
+    </div>
+
+    <div class="form-panel">
+      <form id="msg-form">
+        <div class="form-group">
+          <label>Игровой ник *</label>
+          <input type="text" id="m-author" required maxlength="40">
+        </div>
+        <div class="form-group">
+          <label>Тема обращения *</label>
+          <select id="m-topic">
+            <option value="Проблема">Сообщить о проблеме</option>
+            <option value="Жалоба">Жалоба</option>
+            <option value="Улучшение">Предложение по улучшению</option>
+            <option value="Встреча">Запрос встречи</option>
+            <option value="Происшествие">Сообщение о происшествии</option>
+            <option value="Жильё">Вопрос по жилью</option>
+            <option value="Работа">Вопрос по работе</option>
+            <option value="Другое">Другое</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Текст обращения *</label>
+          <textarea id="m-content" required maxlength="3000" placeholder="Опишите суть обращения..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить обращение</button>
+      </form>
+      <div id="msg-result" style="display:none;margin-top:16px;"></div>
+    </div>
+
+    <div class="terminal" style="margin-top:30px;">
+      &gt; «Мы не обещаем роскошь Нью-Вегаса, но у нас есть крыша над головой и люди, которые не дадут вам умереть от скуки.»<br>
+      &gt; — Рэй Дженкинс, мэр Гудспрингс
+    </div>
+  </main>
+
+  <footer class="site-footer">GOODSPRINGS MUNICIPAL PORTAL · FALLOUT: NEW VEGAS RP</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.getElementById('msg-form').addEventListener('submit', async e => {
+      e.preventDefault();
+      await GS.addMessage({
+        author: document.getElementById('m-author').value.trim(),
+        topic: document.getElementById('m-topic').value,
+        content: document.getElementById('m-content').value.trim()
+      });
+      document.getElementById('msg-result').style.display = 'block';
+      document.getElementById('msg-result').innerHTML = '<div class="terminal">&gt; Обращение доставлено в приёмную мэра. Статус: новое.</div>';
+      e.target.reset();
+    });
+  </script>
+</body>
+</html>

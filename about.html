@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О поселении — GOODSPRINGS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="terminal-ident"><span>ROBCO INDUSTRIES (TM) TERMLINK</span><span>GOODSPRINGS · MUNICIPAL RECORDS</span></div>
+  <div class="header-top">ПУСТОШЬ МОХАВЕ · НЕВАДА · ОФИЦИАЛЬНЫЙ ИНФОРМАЦИОННЫЙ ПОРТАЛ</div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="brand">
+        <div class="brand-emblem">GS</div>
+        <div class="brand-text"><h1>GOODSPRINGS</h1><span>Официальный портал поселения</span></div>
+      </a>
+      <nav>
+        <a href="index.html">Главная</a>
+        <a href="about.html" class="active">О поселении</a>
+        <a href="administration.html">Администрация</a>
+        <a href="news.html">Новости</a>
+        <a href="board.html">Объявления</a>
+        <a href="housing.html">Недвижимость</a>
+        <a href="jobs.html">Работа</a>
+        <a href="events.html">Мероприятия</a>
+        <a href="proposals.html">Предложения</a>
+        <a href="contact.html">Связь с мэром</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>О поселении</h1>
+    <p>История, расположение, правила и возможности</p>
+  </div>
+
+  <main class="container section">
+    <div class="paper" style="margin-bottom:24px;">
+      <div class="paper-header">История</div>
+      <div class="paper-body" id="about-history" style="white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="home-grid">
+      <div class="paper">
+        <div class="paper-header">Расположение</div>
+        <div class="paper-body" id="about-location"></div>
+      </div>
+      <div class="paper">
+        <div class="paper-header">Инфраструктура</div>
+        <div class="paper-body" id="about-infra"></div>
+      </div>
+    </div>
+
+    <div class="paper" style="margin-top:24px;">
+      <div class="paper-header">Правила проживания</div>
+      <div class="paper-body" id="about-rules" style="white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="paper" style="margin-top:24px;">
+      <div class="paper-header">Возможности для новых поселенцев</div>
+      <div class="paper-body" id="about-opp"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">GOODSPRINGS MUNICIPAL PORTAL · FALLOUT: NEW VEGAS RP</footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const a = await GS.getAbout();
+      document.getElementById('about-history').textContent = a.history || '';
+      document.getElementById('about-location').textContent = a.location || '';
+      document.getElementById('about-infra').textContent = a.infrastructure || '';
+      document.getElementById('about-rules').textContent = a.rules || '';
+      document.getElementById('about-opp').textContent = a.opportunities || '';
+    });
+  </script>
+</body>
+</html>
